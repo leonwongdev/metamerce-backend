@@ -26,7 +26,7 @@ public class User {
 
     private String password;
 
-    private UserRole role;
+    private UserRole role = UserRole.ROLE_CUSTOMER;
 
     @JsonIgnore // When I fetch a user, I do not need a list of order, this will be done by a separate API
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
