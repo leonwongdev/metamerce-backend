@@ -4,6 +4,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Service
 public class JwtProvider {
     /*
     In the case where the secret key is not Base64 encoded, we can invoke the getByte() method on the plain string:
@@ -30,6 +32,11 @@ public class JwtProvider {
                 .signWith(key)
                 .compact();
         return jwt;
+    }
+
+    public String getEmailFromToken(String token) {
+        token = token.substring(7);
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("email", String.class);
     }
 
     private String populateAuthorities(Collection<? extends GrantedAuthority> authorities) {
