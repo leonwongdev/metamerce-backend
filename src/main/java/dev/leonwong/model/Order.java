@@ -1,8 +1,6 @@
 package dev.leonwong.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import dev.leonwong.dto.RestaurantDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,25 +23,21 @@ public class Order {
     @ManyToOne
     private User customer;
 
-    @JsonIgnore
-    @ManyToOne
-    private Restaurant restaurant;
-
-    private long totalAmount;
-
     private String orderStatus;
 
     private Date createdAt;
 
-    @ManyToOne
-    private Address deliveryAddress;
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-    @OneToMany
+    //You should include cascade="all" (if using xml) or cascade=CascadeType.ALL (if using annotations) on your collection mapping.
+    //
+    //This happens because you have a collection in your entity, and that collection has one or more items which are not present in the database. By specifying the above options you tell hibernate to save them to the database when saving their parent.
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
-
-//    private Payment payment;
 
     private int totalItem;
 
-    private int totalPrice;
+    private Long totalPrice;
 }

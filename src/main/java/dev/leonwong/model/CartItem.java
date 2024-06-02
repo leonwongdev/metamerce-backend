@@ -24,11 +24,9 @@ public class CartItem {
     private Cart cart;
 
     @ManyToOne
-    private Food food;
+    private Product product;
 
     private int quantity;
-
-    private List<String> ingredients = new ArrayList<>();
 
     private Long totalPrice;
 }

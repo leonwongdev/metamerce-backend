@@ -1,5 +1,6 @@
 package dev.leonwong.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Cart {
     private Long id;
 
     @OneToOne
+    @JsonIgnore
     private User customer;
 
     private Long total;

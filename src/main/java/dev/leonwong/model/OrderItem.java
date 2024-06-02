@@ -6,9 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,11 +16,10 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
-    private Food food;
+    private Product product;
 
     private int quantity;
 
     private long totalPrice;
 
-    private List<String> ingredients = new ArrayList<>();
 }
