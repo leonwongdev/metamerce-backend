@@ -43,6 +43,19 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> getOrderById(@RequestHeader("Authorization") String jwt, @PathVariable Long id) throws Exception {
+        User user = userService.findUserByJwtToken(jwt);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Order order = orderService.findById(id);
+        if (order == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(order);
+    }
+
     @Transactional
     @PostMapping("/place")
     public ResponseEntity<Order> placeOrder(@RequestHeader("Authorization") String jwt, @RequestBody Address address) {

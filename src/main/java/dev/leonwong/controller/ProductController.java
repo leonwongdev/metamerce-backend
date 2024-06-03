@@ -26,12 +26,12 @@ public class ProductController {
 
 
     @GetMapping("/product/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id, @RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         try {
-            User user = userService.findUserByJwtToken(jwt);
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+//            User user = userService.findUserByJwtToken(jwt);
+//            if (user == null) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//            }
             Product product = productService.findProductById(id);
             return ResponseEntity.ok(product);
         } catch (Exception e) {
@@ -39,14 +39,14 @@ public class ProductController {
         }
     }
 
-
     @GetMapping("/product")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<List<Product>> getAllProducts() {
+        System.out.println("ProductController.getAllProducts request received");
         try {
-            User user = userService.findUserByJwtToken(jwt);
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
+//            User user = userService.findUserByJwtToken(jwt);
+//            if (user == null) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//            }
             List<Product> products = productService.findAll();
             return ResponseEntity.ok(products);
         } catch (Exception e) {

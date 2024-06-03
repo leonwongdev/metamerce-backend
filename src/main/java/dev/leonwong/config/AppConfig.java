@@ -3,6 +3,8 @@ package dev.leonwong.config;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +21,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppConfig {
 
     @Bean
@@ -28,6 +31,7 @@ public class AppConfig {
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Disable session because we will be using JWT
                 .authorizeHttpRequests(
                         Authorize -> Authorize
+                                .requestMatchers(HttpMethod.GET, "/api/product/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER", "ADMIN")
                                 .requestMatchers("/api/**").authenticated() // All user can access as long as he provides the JWT token
                                 .anyRequest().permitAll() // All request other than /api/** will me permitted, user does not need JWT token, such as sign up and sign in
@@ -44,7 +48,7 @@ public class AppConfig {
                 CorsConfiguration cfg = new CorsConfiguration();
                 // Set allowed origins for our frontend url
                 cfg.setAllowedOrigins(Arrays.asList(
-                        "http://localhost:3000"
+                        "http://localhost:5173"
                 ));
                 cfg.setAllowedMethods(Collections.singletonList("*")); // Create a list with only one element, and the list is immutable
                 cfg.setAllowCredentials(true); // what is this

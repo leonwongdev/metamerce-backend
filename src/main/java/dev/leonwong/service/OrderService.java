@@ -9,6 +9,8 @@ public interface OrderService {
     Order saveOrder(Order order);
     List<Order> getOrdersByUserEmail(String email);
 
+    Order findById(Long id);
+
     // Save address
     Address saveAddress(Address address);
 }

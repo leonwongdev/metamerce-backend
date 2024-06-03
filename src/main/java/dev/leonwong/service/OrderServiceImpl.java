@@ -33,4 +33,10 @@ public class OrderServiceImpl implements OrderService {
     public Address saveAddress(Address address) {
         return addressRepository.save(address);
     }
+
+
+    @Override
+    public Order findById(Long id) {
+        return orderRepository.findById(id).orElse(null);
+    }
 }
