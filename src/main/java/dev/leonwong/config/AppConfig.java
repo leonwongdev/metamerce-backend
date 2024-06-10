@@ -1,8 +1,10 @@
 package dev.leonwong.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +26,9 @@ import java.util.Collections;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppConfig {
 
+    @Autowired
+    private Environment environment;
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -42,14 +47,22 @@ public class AppConfig {
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
+
+        // Get cors allowlist from env var
+
+
         return new CorsConfigurationSource() {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
                 // Set allowed origins for our frontend url
-                cfg.setAllowedOrigins(Arrays.asList(
-                        "http://localhost:5173"
-                ));
+                String corsAllowedOrigins = environment.getProperty("CORS_ALLOWED_ORIGINS");
+                if (corsAllowedOrigins != null) {
+                    cfg.setAllowedOrigins(Arrays.asList(corsAllowedOrigins.split(",")));
+                } else {
+                    // Set a default value or handle the case where the environment variable is not set
+                    cfg.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
+                }
                 cfg.setAllowedMethods(Collections.singletonList("*")); // Create a list with only one element, and the list is immutable
                 cfg.setAllowCredentials(true); // what is this
                 cfg.setAllowedHeaders(Collections.singletonList("*"));

@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -29,6 +29,9 @@ public class Product {
 
     @Column(length = 1000)
     private String imageUrl;
+
+    @Column(length = 1000)
+    private String modelUrl;
 
     private Date creationDate;
 }
