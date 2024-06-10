@@ -3,15 +3,15 @@
 ## Description
 This is the API server for the Metamerce project, a 3D and interactive e-commerce website!
 It is a RESTful API server that is built using the Java Spring Boot 3.0 framework with SQL Server as database.
-
+[![My Skills](https://skillicons.dev/icons?i=spring,java,docker)](https://skillicons.dev)
 
 ### Live Demo
 
 The Frontend and API server is hosted on azure using Web Service. Both apps are containerized using Docker.
 
-**Frontend Url: `https://metamerce.netlify.app/`**
+Frontend Url: [https://metamerce.netlify.app/](https://metamerce.netlify.app/)
 
-**Backend Url for Swagger API Documentation: `https://metamerce-be.azurewebsites.net/swagger-ui.html`**
+Backend Url for Swagger API Documentation: [https://metamerce-be.azurewebsites.net/swagger-ui.html](https://metamerce-be.azurewebsites.net/swagger-ui.html)
 
 ## Installation
 You can choose to run the project in one of the following way:
