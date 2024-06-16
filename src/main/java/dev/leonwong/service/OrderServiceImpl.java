@@ -39,4 +39,20 @@ public class OrderServiceImpl implements OrderService {
     public Order findById(Long id) {
         return orderRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
+    // Update order status
+    @Override
+    public Order updateOrderStatus(Long id, String status) throws Exception {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order == null) {
+            throw new Exception("Order not found");
+        }
+        order.setOrderStatus(status);
+        return orderRepository.save(order);
+    }
 }

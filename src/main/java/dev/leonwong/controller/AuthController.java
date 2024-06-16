@@ -52,7 +52,12 @@ public class AuthController {
 
         User dbUser = userRepository.findByEmail(user.getEmail());
         if (dbUser != null) {
-            throw new Exception("User with this email already exists");
+            AuthResponse authResponse = new AuthResponse();
+//            authResponse.setJwt(jwt);
+            authResponse.setMessage("User with this email already exist, please use another one.");
+//            authResponse.setRole(savedUser.getRole());
+
+            return new ResponseEntity<>(authResponse, HttpStatus.BAD_REQUEST);
         }
 
         // if the user is not present in the database, then we will create a new user

@@ -27,6 +27,19 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+    // Get all orders
+    @GetMapping("/all")
+    public ResponseEntity<List<Order>> getAllOrders() {
+        try {
+            List<Order> orders = orderService.findAll();
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
     @GetMapping
     public ResponseEntity<List<Order>> getUserOrders(@RequestHeader("Authorization") String jwt) {
         try {
@@ -98,5 +111,21 @@ public class OrderController {
             e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestBody Order order) throws Exception {
+        Order updatedOrder = null;
+        updatedOrder = orderService.updateOrderStatus(id, order.getOrderStatus());
+
+        if (updatedOrder == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedOrder);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleOrderUpdateException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
 }
